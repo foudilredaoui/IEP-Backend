@@ -12,7 +12,7 @@ export interface UserDocument extends mongoose.Document {
 
 const UserSchema = new mongoose.Schema(
   {
-    id: { type: String, required: true, unique: true },
+    id: { type: String, unique: true },
     name: { type: String, required: true },
     hobbies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Hobbies' }],
   },

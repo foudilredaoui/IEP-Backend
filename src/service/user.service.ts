@@ -1,5 +1,4 @@
-import { DocumentDefinition, FilterQuery } from 'mongoose';
-import { omit } from 'lodash';
+import { DocumentDefinition, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
 import User, { UserDocument } from '@src/model/user.model';
 
 export async function createUser(input: DocumentDefinition<UserDocument>) {
@@ -10,22 +9,38 @@ export async function createUser(input: DocumentDefinition<UserDocument>) {
   }
 }
 
-export async function findUser(query: FilterQuery<UserDocument>) {
+export async function getUser(query: FilterQuery<UserDocument>) {
+  try {
+    return await User.find(query).populate('hobbies');
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+export async function findOneUser(query: FilterQuery<UserDocument>) {
   return User.findOne(query).lean();
 }
 
-export async function validatePassword({ email, password }: { email: UserDocument['email']; password: string }) {
-  const user = await User.findOne({ email });
+export async function findAllUsers(query: FilterQuery<UserDocument>) {
+  return User.find(query).lean();
+}
+export async function updateHobbies(query: FilterQuery<UserDocument>, update: UpdateQuery<any>) {
+  User.findOne(query).then((user: any) => {
+    user.hobbies.push(update.hobbies);
+    user.save();
+    return user;
+  });
+}
 
-  if (!user) {
-    return false;
-  }
-
-  const isValid = await user.comparePassword(password);
-
-  if (!isValid) {
-    return false;
-  }
-
-  return omit(user.toJSON(), 'password');
+export async function deleteUserHobbies(
+  query: FilterQuery<UserDocument>,
+  update: UpdateQuery<any>,
+  options: QueryOptions
+) {
+  return User.findOneAndUpdate(
+    query,
+    {
+      $pull: update,
+    },
+    options
+  );
 }

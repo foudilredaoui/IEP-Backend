@@ -12,7 +12,7 @@ export interface HobbiesDocument extends mongoose.Document {
 
 const HobbiesSchema = new mongoose.Schema(
   {
-    id: { type: String, required: true, unique: true },
+    id: { type: String, unique: true },
     passionLevel: { type: String, default: true },
     name: { type: String, default: true },
     year: { type: Number, default: true },
