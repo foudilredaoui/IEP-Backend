@@ -24,11 +24,7 @@ export async function findAllUsers(query: FilterQuery<UserDocument>) {
   return User.find(query).lean();
 }
 export async function updateHobbies(query: FilterQuery<UserDocument>, update: UpdateQuery<any>) {
-  User.findOne(query).then((user: any) => {
-    user.hobbies.push(update.hobbies);
-    user.save();
-    return user;
-  });
+  return User.updateOne(query, { $push: { hobbies: update.hobbies } });
 }
 
 export async function deleteUserHobbies(

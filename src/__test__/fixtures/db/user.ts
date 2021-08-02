@@ -8,7 +8,7 @@ export const hobbiesOne = {
   id: 'HBI16278518DjQ4K513159',
   passionLevel: 'Low',
   name: 'football',
-  year: '2006',
+  year: 2006,
 };
 const hobbiesTwoId = new mongoose.Types.ObjectId();
 export const hobbiesTwo = {
@@ -16,7 +16,7 @@ export const hobbiesTwo = {
   id: 'HBI1627852qRHkzf624848',
   passionLevel: 'High',
   name: 'cooking',
-  year: '2006',
+  year: 2006,
 };
 
 const userOneId = new mongoose.Types.ObjectId();

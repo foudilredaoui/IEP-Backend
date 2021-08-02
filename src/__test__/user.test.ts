@@ -1,6 +1,6 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
-
+import log from '@src/logger';
 import app from '@src/app';
 import config from '@src/__test__/fixtures/config';
 import * as user from '@src/__test__/fixtures/db/user';
@@ -8,13 +8,21 @@ import * as user from '@src/__test__/fixtures/db/user';
 const BASE_URL = '/api/v1';
 
 // connect to test database
-// beforeAll(async () => {
-//   const url = config.BD_TEST_URL;
-//   await mongoose.connect(url, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   });
-// });
+beforeAll(async () => {
+  const url = config.BD_TEST_URL;
+  mongoose
+    .connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      log.info('Database connected');
+    })
+    .catch(error => {
+      log.error('db error', error);
+      process.exit(1);
+    });
+});
 
 beforeEach(user.setupDatabase);
 
