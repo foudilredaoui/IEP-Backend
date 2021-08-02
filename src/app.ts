@@ -18,3 +18,5 @@ app.listen(port, host, () => {
 
   connect();
 });
+
+export default app;
